@@ -1,0 +1,34 @@
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+
+  test:
+    name: ${{ matrix.OS }}
+
+    strategy:
+      matrix:
+        OS: [windows]
+        PK: [mingw-w64]
+        CC: [x86_64-w64-mingw32-g++]
+        EXT: [dll]
+    runs-on: ubuntu-22.04
+
+    steps:
+
+    - uses: actions/checkout@v3
+
+    - name: Install CC
+      run: sudo apt install -y ${{ matrix.PK }}
+
+    - name: Compile shared object
+      run: |
+        export EIGEN_USE_MKL_ALL=1
+        ${{matrix.CC}} --std=c++11 -O3 -mavx2 -shared -o libceigen_lite-x86_64-${{matrix.OS}}.${{matrix.EXT}} -fpic ceigen_lite.cpp -I./ -fopenmp
+
+    - name: Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: libceigen_lite-x86_64-${{matrix.OS}}.${{matrix.EXT}}
