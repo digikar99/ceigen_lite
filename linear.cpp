@@ -160,7 +160,7 @@ extern "C"{
   void CEIGEN_LITE_shouseholderQr(const long m, const long n,
                                   float* A, char A_layout,
                                   float* b, float* x){
-    Map<VectorX<float>> bvec(b, n);
+    Map<VectorX<float>> bvec(b, m);
     Map<VectorX<float>> xvec(x, n);
     if (A_layout == 'C' || A_layout == 'c'){
       Map<MatrixRC<float, ColMajor>> amat(A, m, n);
@@ -173,7 +173,7 @@ extern "C"{
   void CEIGEN_LITE_dhouseholderQr(const long m, const long n,
                                   double* A, char A_layout,
                                   double* b, double* x){
-    Map<VectorX<double>> bvec(b, n);
+    Map<VectorX<double>> bvec(b, m);
     Map<VectorX<double>> xvec(x, n);
     if (A_layout == 'C' || A_layout == 'c'){
       Map<MatrixRC<double, ColMajor>> amat(A, m, n);
