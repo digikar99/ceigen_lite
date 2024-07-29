@@ -98,6 +98,8 @@ void CEIGEN_LITE_deigvecs(const long n, double* a, char a_layout,
                           double _Complex* eigvals,
                           double _Complex* eigvecs, char ev_layout);
 
+void CEIGEN_LITE_seed(const unsigned long n);
+
 #define rand_fn(name, type, ...)                                \
   void CEIGEN_LITE_##name(const long n, type* x, __VA_ARGS__);
 
