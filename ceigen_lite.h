@@ -101,7 +101,8 @@ void CEIGEN_LITE_deigvecs(const long n, double* a, char a_layout,
 void CEIGEN_LITE_seed(const unsigned long n);
 
 #define rand_fn(name, type, ...)                                \
-  void CEIGEN_LITE_##name(const long n, type* x, __VA_ARGS__);
+  void CEIGEN_LITE_##name(const long n, type* x, __VA_ARGS__);	\
+  void CEIGEN_LITE_##name##_r(void* rng, const long n, type* x, __VA_ARGS__);
 
 rand_fn(snormal, float,  float mean, float stdev);
 rand_fn(dnormal, double, double mean, double stdev);
