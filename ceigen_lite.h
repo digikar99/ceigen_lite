@@ -101,14 +101,64 @@ void CEIGEN_LITE_deigvecs(const long n, double* a, char a_layout,
 void CEIGEN_LITE_seed(const unsigned long n);
 
 #define rand_fn(name, type, ...)                                \
-  void CEIGEN_LITE_##name(const long n, type* x, __VA_ARGS__);	\
-  void CEIGEN_LITE_##name##_r(void* rng, const long n, type* x, __VA_ARGS__);
+  void CEIGEN_LITE_##name(const long len, type* x, __VA_ARGS__);	\
+  void CEIGEN_LITE_##name##_r(void* rng, const long len, type* x, __VA_ARGS__);
 
-rand_fn(snormal, float,  float mean, float stdev);
-rand_fn(dnormal, double, double mean, double stdev);
+/* ---------- Real-valued distributions (float/double) ---------- */
 
 rand_fn(sbeta, float,  float a, float b);
 rand_fn(dbeta, double, double a, double b);
 
+rand_fn(scauchy, float,  float loc, float scale);
+rand_fn(dcauchy, double, double loc, double scale);
+
 rand_fn(schiSquared, float,  float ndof);
 rand_fn(dchiSquared, double, double ndof);
+
+rand_fn(sexponential, float,  float lambda);
+rand_fn(dexponential, double, double lambda);
+
+rand_fn(sextremeValue, float,  float loc, float scale);
+rand_fn(dextremeValue, double, double loc, double scale);
+
+rand_fn(sfisherF, float,  float m, float n);
+rand_fn(dfisherF, double, double m, double n);
+
+rand_fn(sgamma, float,  float alpha, float beta);
+rand_fn(dgamma, double, double alpha, double beta);
+
+rand_fn(slognormal, float,  float mean, float stdev);
+rand_fn(dlognormal, double, double mean, double stdev);
+
+rand_fn(snormal, float,  float mean, float stdev);
+rand_fn(dnormal, double, double mean, double stdev);
+
+rand_fn(sstudentT, float,  float ndof);
+rand_fn(dstudentT, double, double ndof);
+
+rand_fn(suniformReal, float,  float min, float max);
+rand_fn(duniformReal, double, double min, double max);
+
+rand_fn(sweibull, float,  float shape, float scale);
+rand_fn(dweibull, double, double shape, double scale);
+
+/* ---------- Integer distributions ---------- */
+//   Only 32 bit integers are supported, see: https://github.com/bab2min/EigenRand/issues/58
+
+rand_fn(i32bernoulli, int32_t, double p);
+/* rand_fn(i64bernoulli, int64_t, double p); */
+
+rand_fn(i32binomial, int32_t, int32_t trials, double p);
+/* rand_fn(i64binomial, int64_t, int64_t trials, double p); */
+
+rand_fn(i32geometric, int32_t, double p);
+/* rand_fn(i64geometric, int64_t, double p); */
+
+rand_fn(i32negativeBinomial, int32_t, int32_t trials, double p);
+/* rand_fn(i64negativeBinomial, int64_t, int64_t trials, double p); */
+
+rand_fn(i32poisson, int32_t, double mean);
+/* rand_fn(i64poisson, int64_t, double mean); */
+
+rand_fn(i32uniformInt, int32_t, int32_t min, int32_t max);
+/* rand_fn(i64uniformInt, int64_t, int64_t min, int64_t max); */
