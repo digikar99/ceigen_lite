@@ -19,6 +19,7 @@ extern "C"{
   struct CEIGEN_LITE_rng { Rand::Vmt19937_64 engine; };
   CEIGEN_LITE_rng global_urng64{Rand::Vmt19937_64{42}};
 
+  // For multithreading, see https://github.com/bab2min/EigenRand/issues/25
   CEIGEN_LITE_rng* CEIGEN_LITE_seed_r(unsigned long seed) {
     return new CEIGEN_LITE_rng{Rand::Vmt19937_64(seed)};
   }

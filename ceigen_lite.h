@@ -98,6 +98,7 @@ void CEIGEN_LITE_deigvecs(const long n, double* a, char a_layout,
                           double _Complex* eigvals,
                           double _Complex* eigvecs, char ev_layout);
 
+// For multithreading, see https://github.com/bab2min/EigenRand/issues/25
 void* CEIGEN_LITE_seed_r(unsigned long seed); // Returns the seed object
 void CEIGEN_LITE_rng_destroy(void *rng);  // Deletes the seed object
 void CEIGEN_LITE_seed(const unsigned long n);
