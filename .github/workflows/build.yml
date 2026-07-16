@@ -58,4 +58,7 @@ jobs:
       uses: softprops/action-gh-release@v3
       if: startsWith(github.ref, 'refs/tags/')
       with:
-        files: libceigen_lite-*.so libceigen_lite-*.dylib libceigen_lite-*.dll
+        files: |
+          libceigen_lite-*.so
+          libceigen_lite-*.dylib
+          libceigen_lite-*.dll
