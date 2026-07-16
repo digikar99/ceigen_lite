@@ -2,10 +2,10 @@
  * @file MvNormal.h
  * @author bab2min (bab2min@gmail.com)
  * @brief
- * @version 0.5.0
- * @date 2023-01-31
+ * @version 0.5.1
+ * @date 2024-09-08
  *
- * @copyright Copyright (c) 2020-2021
+ * @copyright Copyright (c) 2020-2024
  *
  */
 
@@ -115,6 +115,20 @@ namespace Eigen
 			}
 		};
 
+    namespace detail {
+      template<typename MeanTy, typename CovTy>
+      constexpr bool either_is_dynamic() {
+        return (MatrixBase<MeanTy>::RowsAtCompileTime == Eigen::Dynamic) ||
+                (MatrixBase<CovTy>::RowsAtCompileTime == Eigen::Dynamic);
+      }
+
+      template<typename MeanTy, typename CovTy>
+      constexpr bool normal_check_dims() {
+        return (either_is_dynamic<MeanTy, CovTy>() || MatrixBase<MeanTy>::RowsAtCompileTime == MatrixBase<CovTy>::RowsAtCompileTime) &&
+               MatrixBase<CovTy>::RowsAtCompileTime == MatrixBase<CovTy>::ColsAtCompileTime;
+      }
+    }
+
 		/**
 		 * @brief helper function constructing Eigen::Rand::MvNormal
 		 * 
@@ -132,8 +146,7 @@ namespace Eigen
 				"Derived::Scalar must be the same with `mean` and `cov`'s Scalar."
 			);
 			static_assert(
-				MatrixBase<MeanTy>::RowsAtCompileTime == MatrixBase<CovTy>::RowsAtCompileTime &&
-				MatrixBase<CovTy>::RowsAtCompileTime == MatrixBase<CovTy>::ColsAtCompileTime,
+        detail::normal_check_dims<MeanTy, CovTy>(),
 				"assert: mean.RowsAtCompileTime == cov.RowsAtCompileTime && cov.RowsAtCompileTime == cov.ColsAtCompileTime"
 			);
 			return { mean, cov };
@@ -156,8 +169,7 @@ namespace Eigen
 				"Derived::Scalar must be the same with `mean` and `lt`'s Scalar."
 			);
 			static_assert(
-				MatrixBase<MeanTy>::RowsAtCompileTime == MatrixBase<LTTy>::RowsAtCompileTime &&
-				MatrixBase<LTTy>::RowsAtCompileTime == MatrixBase<LTTy>::ColsAtCompileTime,
+        detail::normal_check_dims<MeanTy, LTTy>(),
 				"assert: mean.RowsAtCompileTime == lt.RowsAtCompileTime && lt.RowsAtCompileTime == lt.ColsAtCompileTime"
 			);
 			return { mean, lt, lower_triangular };

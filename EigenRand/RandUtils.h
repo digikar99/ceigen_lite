@@ -2,10 +2,10 @@
  * @file RandUtils.h
  * @author bab2min (bab2min@gmail.com)
  * @brief 
- * @version 0.5.0
- * @date 2023-01-31
- * 
- * @copyright Copyright (c) 2020-2021
+ * @version 0.5.1
+ * @date 2024-09-08
+ *
+ * @copyright Copyright (c) 2020-2024
  * 
  */
 
@@ -311,6 +311,9 @@ namespace Eigen
 	}
 }
 
+#ifdef EIGEN_VECTORIZE_AVX512
+#include "arch/AVX512/RandUtils.h"
+#endif
 
 #ifdef EIGEN_VECTORIZE_AVX
 #include "arch/AVX/RandUtils.h"

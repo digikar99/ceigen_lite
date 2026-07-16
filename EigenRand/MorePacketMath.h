@@ -2,10 +2,10 @@
  * @file MorePacketMath.h
  * @author bab2min (bab2min@gmail.com)
  * @brief 
- * @version 0.5.0
- * @date 2023-01-31
- * 
- * @copyright Copyright (c) 2020-2021
+ * @version 0.5.1
+ * @date 2024-09-08
+ *
+ * @copyright Copyright (c) 2020-2024
  * 
  */
 
@@ -13,6 +13,7 @@
 #define EIGENRAND_MORE_PACKET_MATH_H
 
 #include <Eigen/Dense>
+#include <cstdint>
 
 #define EIGENRAND_PRINT_PACKET(p) do { using _MTy = typename std::remove_const<typename std::remove_reference<decltype(p)>::type>::type; typename std::conditional<Eigen::internal::IsFloatPacket<_MTy>::value, float, typename std::conditional<Eigen::internal::IsDoublePacket<_MTy>::value, double, int>::type>::type f[4]; Eigen::internal::pstore(f, p); std::cout << #p " " << f[0] << " " << f[1] << " " << f[2] << " " << f[3] << std::endl; } while(0)
 
@@ -568,6 +569,10 @@ namespace Eigen
 		}
 	}
 }
+
+#ifdef EIGEN_VECTORIZE_AVX512
+#include "arch/AVX512/MorePacketMath.h"
+#endif
 
 #ifdef EIGEN_VECTORIZE_AVX
 #include "arch/AVX/MorePacketMath.h"
