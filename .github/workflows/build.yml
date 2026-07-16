@@ -1,0 +1,61 @@
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.runs-on }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: linux-x86_64
+            runs-on: ubuntu-24.04
+          - name: linux-arm64
+            runs-on: ubuntu-24.04-arm
+          - name: macos-x86_64
+            runs-on: macos-15-intel
+          - name: macos-arm64
+            runs-on: macos-15
+          - name: windows-x86_64
+            runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v7
+
+    - name: Install build tools (Linux)
+      if: runner.os == 'Linux'
+      run: sudo apt-get update && sudo apt-get install -y g++ make
+
+    - name: Install build tools (macOS)
+      if: runner.os == 'macOS'
+      run: brew install libomp make
+
+    - name: Install build tools (Windows)
+      if: runner.os == 'Windows'
+      uses: msys2/setup-msys2@v2
+      with:
+        msystem: MINGW64
+        update: true
+        install: mingw-w64-x86_64-gcc make
+
+    - name: Compile shared object (Linux/macOS)
+      if: runner.os != 'Windows'
+      run: |
+        [ "${{ runner.os }}" = "macOS" ] && MAKE=gmake || MAKE=make
+        $MAKE
+
+    - name: Compile shared object (Windows)
+      if: runner.os == 'Windows'
+      shell: msys2 {0}
+      run: |
+        make
+
+    - name: Release
+      uses: softprops/action-gh-release@v3
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        files: libceigen_lite-*.so libceigen_lite-*.dylib libceigen_lite-*.dll
