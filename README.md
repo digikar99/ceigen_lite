@@ -4,6 +4,8 @@ The argument pattern is similar to BLAS/LAPACK: the first few arguments correspo
 
 As of this writing, [Eigen](https://gitlab.com/libeigen/eigen/-/tree/master) version 3.4 is included, [licensed under MPL2](https://gitlab.com/libeigen/eigen/-/blob/master/COPYING.README).
 
-This repository also packs the [EigenRand](https://github.com/bab2min/EigenRand), licensed under MIT, and it was in fact the primary motivation for this project. EigenRand offers several sampling functions optimized using SIMD. These include sampling from a gaussian/normal distribution, beta distribution, chi-squared, and several others.
+This repository also packs the [EigenRand](https://github.com/bab2min/EigenRand), version 0.5.1, licensed under MIT, and it was in fact the primary motivation for this project. EigenRand offers several sampling functions optimized using SIMD. These include sampling from a gaussian/normal distribution, beta distribution, chi-squared, and several others.
 
-Run `bash make.sh` in the current directory to build the `libceigen_lite.so` shared library.
+You can grab a binary from the [Releases](https://github.com/digikar99/ceigen_lite/releases).
+
+Run `make` (or `gmake`) in the current directory to build the `libceigen_lite-*` shared library. The  full name is platform specific.
